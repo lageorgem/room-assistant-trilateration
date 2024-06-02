@@ -1,22 +1,15 @@
-# Base image for Home Assistant add-ons
-ARG BUILD_FROM
-FROM $BUILD_FROM
+FROM node:18
 
-# Install Node.js and npm
-RUN apk add --no-cache nodejs npm
+# Set working directory
+WORKDIR /usr/src
 
-# Install required Node.js packages
-RUN npm install axios numeric
+# Copy application files
+COPY ./rootfs /usr/src
 
-# Copy the add-on's main script into the container
-COPY run.js /app/run.js
+# Install dependencies
+RUN npm install
 
-# Set permissions and entry point
-RUN chmod a+x /app/run.js
-ENTRYPOINT ["/app/run.js"]
+# Expose the port the app runs on
+EXPOSE 3342
 
-# Define the working directory
-WORKDIR /app
-
-# Default command to run the script
-CMD ["node", "/app/run.js"]
+CMD ["app.js"]
