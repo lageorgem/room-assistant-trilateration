@@ -6,7 +6,7 @@ const config = JSON.parse(process.env.HASSIO_ADDON_CONFIG || '{}');
 const HA_API_URL = 'http://home.local:8123/api';
 // const HA_TOKEN = config.ha_long_lived_token;
 const HA_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlMWEwZjI4NGU3OTA0ZWZmODI4NmEwYzAyNTc1N2MyMCIsImlhdCI6MTcxNzM0NTI3MCwiZXhwIjoyMDMyNzA1MjcwfQ.fGuzfeT5cqCiQs-tvmy-LNqN5RdInDROco1W-YdzjCQ';
-const updateInterval = config?.update_interval || 5000;
+const updateInterval = (config?.update_interval || 5) * 1000;
 
 const locationMappings = {
     kitchen: { x: -0.92, y: 0.99 },
@@ -109,7 +109,7 @@ async function updateSensors() {
     }
 }
 
-setInterval(updateSensors, 5000)
+setInterval(updateSensors, updateInterval)
 
 // Example usage
 // const points = [

@@ -12,3 +12,15 @@ arch:
 hassio_api: true
 homeassistant_api: true
 host_network: true
+map:
+  - config:rw
+options:
+  ha_long_lived_token: null
+  location_mappings: null
+  update_interval: 5
+schema:
+  ha_long_lived_token: str
+  update_interval: int
+  location_mappings:
+    - x: float
+      y: float
