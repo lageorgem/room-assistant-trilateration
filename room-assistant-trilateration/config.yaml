@@ -15,12 +15,16 @@ host_network: true
 map:
   - config:rw
 options:
-  ha_long_lived_token: null
   location_mappings: null
+  home_dimensions: null
+  room_assistant_url: null
   update_interval: 5
 schema:
-  ha_long_lived_token: str
   update_interval: int
+  room_assistant_url: str
   location_mappings:
     - x: float
       y: float
+  home_dimensions:
+    width: float
+    height: float

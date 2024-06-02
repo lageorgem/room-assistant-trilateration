@@ -2,22 +2,23 @@ const numeric = require('numeric');
 const axios = require('axios');
 
 const config = JSON.parse(process.env.HASSIO_ADDON_CONFIG || '{}');
-// const locationMappings = config.location_mappings;
-const HA_API_URL = 'http://home.local:8123/api';
-// const HA_TOKEN = config.ha_long_lived_token;
-const HA_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJlMWEwZjI4NGU3OTA0ZWZmODI4NmEwYzAyNTc1N2MyMCIsImlhdCI6MTcxNzM0NTI3MCwiZXhwIjoyMDMyNzA1MjcwfQ.fGuzfeT5cqCiQs-tvmy-LNqN5RdInDROco1W-YdzjCQ';
+const locationMappings = config.location_mappings;
+const homeDimensions = config.home_dimensions;
+const roomAssistantURL = config.room_assistant_url;
 const updateInterval = (config?.update_interval || 5) * 1000;
 
-const locationMappings = {
-    kitchen: { x: -0.92, y: 0.99 },
-    living: { x: -4.63, y: -3.475 },
-    bedroom: { x: 2.03, y: 0.58 },
-}
+const HA_API_URL = 'http://supervisor/core/api';
 
-const homeDimensions = {
-    width: 10.66,
-    height: 7.75
-}
+// const locationMappings = {
+//     kitchen: { x: -0.92, y: 0.99 },
+//     living: { x: -4.63, y: -3.475 },
+//     bedroom: { x: 2.03, y: 0.58 },
+// }
+
+// const homeDimensions = {
+//     width: 10.66,
+//     height: 7.75
+// }
 
 function trilateration(points) {
     // points: array of objects with x, y, and radius
@@ -60,7 +61,7 @@ function trilateration(points) {
 
 async function updateSensors() {
     try {
-        const response = await axios.get('http://home.local:6415/entities')
+        const response = await axios.get(new URL('/entities', roomAssistantURL).toString())
         const data = response.data;
         const devices = data.filter((d) => d.distances);
 
@@ -105,7 +106,7 @@ async function updateSensors() {
 
         console.log('Updated sensors:', results);
     } catch (e) {
-        console.error(`An error has occured while calculating positions: ${e.message} ${JSON.stringify(e?.response?.data || '')}`)
+        console.error(`An error has occured while calculating positions: ${e.message} ${e?.response?.data ? JSON.stringify(e?.response?.data) : ''}`)
     }
 }
 
