@@ -23,7 +23,8 @@ schema:
   update_interval: int
   room_assistant_url: str
   location_mappings:
-    - x: float
+    - name: str
+      x: float
       y: float
   home_dimensions:
     width: float

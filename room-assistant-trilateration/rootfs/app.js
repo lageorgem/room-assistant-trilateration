@@ -20,6 +20,19 @@ const HA_API_URL = 'http://supervisor/core/api';
 //     height: 7.75
 // }
 
+// - kitchen:
+//     x: -0.92
+//     y: 0.99
+// - living:
+//     x: -4.63
+//     y: -3.475
+// - bedroom:
+//     x: 2.03
+//     y: 0.58
+
+// width: 10.66
+// height: 7.75
+
 function trilateration(points) {
     // points: array of objects with x, y, and radius
 
@@ -68,7 +81,7 @@ async function updateSensors() {
 
         const results = await Promise.all(devices.map(async (device) => {
             const points = Object.entries(device.distances)
-                .filter(([k, v]) => Object.keys(locationMappings).includes(k))
+                .filter(([k, _]) => locationMappings.find((m) => m.name === k))
                 .map(([k, v]) => ({
                     x: locationMappings[k].x,
                     y: locationMappings[k].y,
@@ -79,20 +92,20 @@ async function updateSensors() {
             const sensorName = `${device.id.replaceAll("-", "_")}_position`;
             const sensorValue = `${result.position[0]}, ${result.position[1]}`;
 
-            console.log(sensorName, sensorValue, result.error)
+            const payload = {
+                friendly_name: device.name,
+                state: sensorValue,
+                attributes: {
+                    x: result.position[0],
+                    y: result.position[1],
+                    error: result.error
+                }
+            }
 
             // Create or update a Home Assistant sensor with the calculated position
             await axios.post(
                 `${HA_API_URL}/states/sensor.${sensorName}`,
-                {
-                    friendly_name: device.name,
-                    state: sensorValue,
-                    attributes: {
-                        x: result.position[0],
-                        y: result.position[1],
-                        error: result.error
-                    }
-                },
+                payload,
                 {
                     headers: {
                         'Authorization': `Bearer ${HA_TOKEN}`,
