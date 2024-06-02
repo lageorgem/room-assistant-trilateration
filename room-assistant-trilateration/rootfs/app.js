@@ -15,8 +15,8 @@ if (!homeDimensions) throw new Error('Missing configuration: home_dimensions');
 if (!roomAssistantURL) throw new Error('Missing configuration: room_assistant_url');
 
 console.log(`Started application with config:
-location_mappings: ${JSON.stringify(locationMappings)}
-home_dimensions: ${JSON.stringify(homeDimensions)}
+location_mappings: ${JSON.stringify(locationMappings, null, 2)}
+home_dimensions: ${JSON.stringify(homeDimensions, null, 2)}
 room_assistant_url: ${roomAssistantURL}
 update_interval: ${updateInterval}`)
 
@@ -93,11 +93,14 @@ async function updateSensors() {
         const results = await Promise.all(devices.map(async (device) => {
             const points = Object.entries(device.distances)
                 .filter(([k, _]) => locationMappings.find((m) => m.name === k))
-                .map(([k, v]) => ({
-                    x: locationMappings[k].x,
-                    y: locationMappings[k].y,
-                    radius: v.distance
-                }))
+                .map(([k, v]) => {
+                    const pivot = locationMappings.find((m) => m.name === k)
+                    return {
+                        x: pivot.x,
+                        y: pivot.y,
+                        radius: v.distance
+                    }
+                })
 
             const result = trilateration(points);
             const sensorName = `${device.id.replaceAll("-", "_")}_position`;
