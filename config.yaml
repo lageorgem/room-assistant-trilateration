@@ -1,14 +1,14 @@
----
 name: Room Assistant Trilatetration
 version: '1.0'
 slug: room-assistant-trilatetration
+description: "Calculate the location of room-assistant devices inside the house"
 startup: services
 arch:
-  - armhf
-  - armv7
-  - aarch64
-  - amd64
-  - i386
+- armhf
+- armv7
+- aarch64
+- amd64
+- i386
 hassio_api: true
 homeassistant_api: true
 host_network: true
@@ -18,13 +18,13 @@ options:
   location_mappings:
     living:
       x: -0.92
-      "y": 0.99
+      y: 0.99
     kitchen:
       x: -4.63
-      "y": -3.475
+      y: -3.475
     bedroom:
       x: 2.03
-      "y": 0.58
+      y: 0.58
 schema:
   ha_long_lived_token:
     type: string
@@ -37,8 +37,8 @@ schema:
         properties:
           x:
             type: number
-          "y":
+          y:
             type: number
         required:
           - x
-          - "y"
+          - y
