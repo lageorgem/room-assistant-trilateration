@@ -2,7 +2,7 @@ const numeric = require('numeric');
 const axios = require('axios');
 const fs = require('fs')
 
-const config = JSON.parse(fs.readSync('/data/options.json') || '{}');
+const config = JSON.parse(fs.readFileSync('/data/options.json') || '{}');
 const locationMappings = config.location_mappings;
 const homeDimensions = config?.home_dimensions;
 const roomAssistantURL = config?.room_assistant_url || 'http://home.local:6415/entities';
