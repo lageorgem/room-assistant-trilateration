@@ -3,11 +3,21 @@ const axios = require('axios');
 
 const config = JSON.parse(process.env.HASSIO_ADDON_CONFIG || '{}');
 const locationMappings = config.location_mappings;
-const homeDimensions = config.home_dimensions;
-const roomAssistantURL = config.room_assistant_url;
+const homeDimensions = config?.home_dimensions;
+const roomAssistantURL = config?.room_assistant_url || 'http://home.local:6415/entities';
 const updateInterval = (config?.update_interval || 5) * 1000;
 
 const HA_API_URL = 'http://supervisor/core/api';
+
+if (!locationMappings) throw new Error('Missing configuration: location_mappings');
+if (!homeDimensions) throw new Error('Missing configuration: home_dimensions');
+if (!roomAssistantURL) throw new Error('Missing configuration: room_assistant_url');
+
+console.log(`Started application with config:
+location_mappings: ${JSON.stringify(locationMappings)}
+home_dimensions: ${JSON.stringify(homeDimensions)}
+room_assistant_url: ${roomAssistantURL}
+update_interval: ${updateInterval}`)
 
 // const locationMappings = {
 //     kitchen: { x: -0.92, y: 0.99 },
