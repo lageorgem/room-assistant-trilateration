@@ -4,7 +4,7 @@ FROM node:18
 WORKDIR /usr/src
 
 # Copy application files
-COPY ./rootfs /usr/src
+COPY rootfs /usr/src
 
 # Install dependencies
 RUN npm install
