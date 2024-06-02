@@ -1,7 +1,8 @@
 const numeric = require('numeric');
 const axios = require('axios');
+const fs = require('fs')
 
-const config = JSON.parse(process.env.HASSIO_ADDON_CONFIG || '{}');
+const config = JSON.parse(fs.readSync('/data/options.json') || '{}');
 const locationMappings = config.location_mappings;
 const homeDimensions = config?.home_dimensions;
 const roomAssistantURL = config?.room_assistant_url || 'http://home.local:6415/entities';
@@ -30,15 +31,15 @@ update_interval: ${updateInterval}`)
 //     height: 7.75
 // }
 
-// - kitchen:
-//     x: -0.92
-//     y: 0.99
-// - living:
-//     x: -4.63
-//     y: -3.475
-// - bedroom:
-//     x: 2.03
-//     y: 0.58
+// - name: kitchen
+//   x: -0.92
+//   y: 0.99
+// - name: living
+//   x: -4.63
+//   y: -3.475
+// - name: bedroom
+//   x: 2.03
+//   y: 0.58
 
 // width: 10.66
 // height: 7.75
