@@ -12,33 +12,3 @@ arch:
 hassio_api: true
 homeassistant_api: true
 host_network: true
-map:
-  - config:rw
-options:
-  location_mappings:
-    living:
-      x: -0.92
-      y: 0.99
-    kitchen:
-      x: -4.63
-      y: -3.475
-    bedroom:
-      x: 2.03
-      y: 0.58
-schema:
-  ha_long_lived_token:
-    type: string
-    description: Home Assistant long-lived token for API access
-  location_mappings:
-    type: object
-    patternProperties:
-      ".*":
-        type: object
-        properties:
-          x:
-            type: number
-          y:
-            type: number
-        required:
-          - x
-          - y
