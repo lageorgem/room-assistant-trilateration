@@ -3,6 +3,7 @@ const axios = require('axios');
 const fs = require('fs')
 
 const config = JSON.parse(fs.readFileSync('/data/options.json') || '{}');
+const homeAssistantToken = config?.home_assistant_token;
 const locationMappings = config.location_mappings;
 const homeDimensions = config?.home_dimensions;
 const roomAssistantURL = config?.room_assistant_url;
@@ -40,7 +41,7 @@ update_interval: ${updateInterval}`)
 // - name: bedroom
 //   x: 2.03
 //   y: 0.58
-//
+
 // width: 10.66
 // height: 7.75
 
@@ -120,6 +121,12 @@ async function updateSensors() {
             await axios.post(
                 `${HA_API_URL}/states/sensor.${sensorName}`,
                 payload,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${homeAssistantToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
             );
 
             return {name: sensorName, value: sensorValue};

@@ -1,5 +1,5 @@
 name: Room Assistant Trilatetration
-version: '1.0.2'
+version: '1.0.3'
 slug: room-assistant-trilatetration
 description: "Calculate the location of room-assistant devices inside the house"
 startup: services
@@ -15,11 +15,13 @@ host_network: true
 map:
   - config:rw
 options:
+  home_assistant_token: ''
   location_mappings: null
   home_dimensions: null
   room_assistant_url: null
   update_interval: 5
 schema:
+  home_assistant_token: str
   update_interval: int
   room_assistant_url: str
   location_mappings:
