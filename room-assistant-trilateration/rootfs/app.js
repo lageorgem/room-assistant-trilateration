@@ -16,6 +16,7 @@ if (!homeDimensions) throw new Error('Missing configuration: home_dimensions');
 if (!roomAssistantURL) throw new Error('Missing configuration: room_assistant_url');
 
 console.log(`Started application with config:
+home_assistant_token: ${JSON.stringify(homeAssistantToken, null, 2)}
 location_mappings: ${JSON.stringify(locationMappings, null, 2)}
 home_dimensions: ${JSON.stringify(homeDimensions, null, 2)}
 room_assistant_url: ${roomAssistantURL}
