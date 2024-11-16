@@ -5,7 +5,7 @@ const fs = require('fs')
 const config = JSON.parse(fs.readFileSync('/data/options.json') || '{}');
 const locationMappings = config.location_mappings;
 const homeDimensions = config?.home_dimensions;
-const roomAssistantURL = config?.room_assistant_url || 'http://home.local:6415/entities';
+const roomAssistantURL = config?.room_assistant_url;
 const updateInterval = (config?.update_interval || 5) * 1000;
 
 const HA_API_URL = 'http://supervisor/core/api';
@@ -104,7 +104,7 @@ async function updateSensors() {
 
             const result = trilateration(points);
             const sensorName = `${device.id.replaceAll("-", "_")}_position`;
-            const sensorValue = `${result.position[0]}, ${result.position[1]}`;
+            const sensorValue = `${result.position[0]},${result.position[1]}`;
 
             const payload = {
                 friendly_name: device.name,
@@ -120,12 +120,6 @@ async function updateSensors() {
             await axios.post(
                 `${HA_API_URL}/states/sensor.${sensorName}`,
                 payload,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${HA_TOKEN}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
             );
 
             return {name: sensorName, value: sensorValue};
