@@ -31,18 +31,18 @@ update_interval: ${updateInterval}`)
 //     height: 7.75
 // }
 
-- name: kitchen
-  x: -0.92
-  y: 0.99
-- name: living
-  x: -4.63
-  y: -3.475
-- name: bedroom
-  x: 2.03
-  y: 0.58
-
-width: 10.66
-height: 7.75
+// - name: kitchen
+//   x: -0.92
+//   y: 0.99
+// - name: living
+//   x: -4.63
+//   y: -3.475
+// - name: bedroom
+//   x: 2.03
+//   y: 0.58
+//
+// width: 10.66
+// height: 7.75
 
 function trilateration(points) {
     // points: array of objects with x, y, and radius
