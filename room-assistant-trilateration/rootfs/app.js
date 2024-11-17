@@ -87,7 +87,7 @@ async function updateSensors() {
     try {
         const response = await axios.get(new URL('/entities', roomAssistantURL).toString())
         const data = response.data;
-        const devices = data.filter((d) => d.distances);
+        const devices = data.filter((d) => d.distances && d.state !== 'not_home');
 
 
         const results = await Promise.all(devices.map(async (device) => {
@@ -158,6 +158,8 @@ setInterval(updateSensors, updateInterval)
 //      Coords: -4.63, -3.475
 // Bedroom RPi:  1.95, 3.30
 //      Coords: 2.03,  0.58
+
+1
 
 //1.95
 //3.30
