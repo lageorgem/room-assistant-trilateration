@@ -3,7 +3,6 @@ const axios = require('axios');
 const fs = require('fs')
 
 const config = JSON.parse(fs.readFileSync('/data/options.json') || '{}');
-const homeAssistantToken = config?.home_assistant_token;
 const locationMappings = config.location_mappings;
 const homeDimensions = config?.home_dimensions;
 const roomAssistantURL = config?.room_assistant_url;
@@ -16,7 +15,6 @@ if (!homeDimensions) throw new Error('Missing configuration: home_dimensions');
 if (!roomAssistantURL) throw new Error('Missing configuration: room_assistant_url');
 
 console.log(`Started application with config:
-home_assistant_token: ${JSON.stringify(homeAssistantToken, null, 2)}
 location_mappings: ${JSON.stringify(locationMappings, null, 2)}
 home_dimensions: ${JSON.stringify(homeDimensions, null, 2)}
 room_assistant_url: ${roomAssistantURL}
@@ -124,7 +122,7 @@ async function updateSensors() {
                 payload,
                 {
                     headers: {
-                        'Authorization': `Bearer ${homeAssistantToken}`,
+                        'Authorization': `Bearer ${process.env.SUPERVISOR_TOKEN}`,
                         'Content-Type': 'application/json'
                     }
                 }
