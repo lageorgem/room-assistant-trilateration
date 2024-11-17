@@ -128,7 +128,14 @@ async function updateSensors() {
                 }
             );
 
-            return {name: sensorName, value: sensorValue};
+            return {
+                name: sensorName,
+                value: sensorValue,
+                attributes: {
+                    x: result.position[0],
+                    y: result.position[1],
+                    error: result.error
+                }};
         }));
 
         console.log('Updated sensors:', results);
